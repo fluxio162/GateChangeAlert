@@ -1,5 +1,5 @@
 ---
-name: "GateChangeAlert"
+name: "GateChangeAlertWorkflow"
 dataIns:
   - name: "newGate"
     type: "string"
@@ -22,7 +22,7 @@ workflowBody:
                     source: "LambdaGetPassenger/passengers"
                 properties:
                   - name: "resources"
-                    value: "arn:aws:lambda:us-east-1:069469608429:function:getPassengers"
+                    value: "java:arn:aws:lambda:us-east-1:069469608429:function:getPassengers"
             - function:
                 name: "getNewGate"
                 type: "int"
@@ -32,7 +32,7 @@ workflowBody:
                     source: "newGate"
                 properties:
                   - name: "resources"
-                    value: "arn:aws:lambda:us-east-1:069469608429:function:getNewGate"
+                    value: "java:arn:aws:lambda:us-east-1:069469608429:function:getNewGate"
   - function:
       name: "calcCheckDelay"
       type: "int"
@@ -42,7 +42,7 @@ workflowBody:
           source: "LambdaCalcCheckDelay/securityCheckDelay"
       properties:
         - name: "resources"
-          value: "arn:aws:lambda:us-east-1:069469608429:function:calcCheckDelay"
+          value: "java:arn:aws:lambda:us-east-1:069469608429:function:calcCheckDelay"
   - function:
       name: "calcTimeCheckToGate"
       type: "int"
@@ -59,7 +59,7 @@ workflowBody:
           source: "LambdaCalcTimeCheckToGate/delay"
       properties:
         - name: "resources"
-          value: "arn:aws:lambda:us-east-1:069469608429:function:calcTimeCheckToGate"
+          value: "java:arn:aws:lambda:us-east-1:069469608429:function:calcTimeCheckToGate"
   - parallel:
       name: "Parallel0"
       parallelBody:
@@ -77,7 +77,7 @@ workflowBody:
                     source: "LambdaGetGPS/gpsLocation"
                 properties:
                   - name: "resources"
-                    value: "arn:aws:lambda:us-east-1:069469608429:function:getGPS"
+                    value: "java:arn:aws:lambda:us-east-1:069469608429:function:getGPS"
             - function:
                 name: "calcTimeToGate"
                 type: "int"
@@ -94,7 +94,7 @@ workflowBody:
                     source: "LambdaCalcTimeToGate/timeToGate"
                 properties:
                   - name: "resources"
-                    value: "arn:aws:lambda:us-east-1:069469608429:function:calcTimeToGate"
+                    value: "java:arn:aws:lambda:us-east-1:069469608429:function:calcTimeToGate"
             - function:
                 name: "informPassenger"
                 type: "int"
@@ -104,4 +104,4 @@ workflowBody:
                     source: "GateChangeAlert/timeToGate"
                 properties:
                   - name: "resources"
-                    value: "arn:aws:lambda:us-east-1:069469608429:function:informPassenger"
+                    value: "java:arn:aws:lambda:us-east-1:069469608429:function:informPassenger"
