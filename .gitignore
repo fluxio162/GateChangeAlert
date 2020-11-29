@@ -7,4 +7,4 @@
 *.iml
 out
 gen
-src/main/java/GateChangeAlertClasses/GateChangeAlertWorkflow.yaml
+GateChangeAlertWorkflow.yaml
