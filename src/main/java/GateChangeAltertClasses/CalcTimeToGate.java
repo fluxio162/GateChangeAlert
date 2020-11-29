@@ -1,4 +1,4 @@
-package GateChangeAltertProject;
+package GateChangeAltertClasses;
 
 public class CalcTimeToGate {
 

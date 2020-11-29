@@ -1,13 +1,13 @@
-package GateChangeAltertProject;
+package GateChangeAlertLambdas;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
 import java.util.Map;
 
-public class LambdaGetNewGate implements RequestHandler<Map<String, Object>, Map<String, Object>>{
+public class LambdaCalcTimeToGate implements RequestHandler<Map<String, Object>, Map<String, Object>>{
         @Override public Map<String, Object> handleRequest(Map<String, Object> input, Context context){
-            System.out.println("Hello World from LambdaGetNewGate");
+            System.out.println("Hello World from CalcTimeToGate");
         return null;
     }
 }

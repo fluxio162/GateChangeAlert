@@ -1,4 +1,4 @@
-package GateChangeAltertProject;
+package GateChangeAlertLambdas;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
