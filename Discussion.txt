@@ -1,0 +1,57 @@
+getPassengers
+
+input: newGate [String]
+output: passengers [Collection]
+
+Gets a String in format flight;;gate, retrieve all affected passengers from database and will return a Collection with all passengers from the flight.
+
+
+
+getNewGate
+
+input: newGate [String]
+
+Gets a String in format flight;;gate and will update the passengers gate in database.
+
+
+
+calcCheckDelay
+
+output: securityCheckDelay
+
+Loads an image from S3 and calls AWS recognition to calculation waiting time at security check.
+
+
+
+calcTimeCheckToGate
+
+input: newGate [String], securityCheckDelay [Number]
+output: delay [Number]
+
+Calculates the total delay from security check to the new gate for passengers in public area.
+
+
+
+getGPS
+
+input: passengers [Collection]
+output: gpsLocation [Collection]
+
+Returns the GPS location from all affected passengers.
+
+
+
+calcTimeToGate
+
+input: gpsLocation [Collection], delay [Number]
+output: timeToGate [Collection]
+
+Calculates the estimated time between the passenger and the new gate (inside security area GPS location <-> GPS location) and for passengers inside public area GPS location <-> security check + delay.
+
+
+
+informPassenger
+
+input: timeToGate [Collection]
+
+Sends a notification to all passengers.
