@@ -1,4 +1,4 @@
-package GateChangeAltertClasses;
+package GateChangeAlertClasses;
 
 public class GetGPS {
 
