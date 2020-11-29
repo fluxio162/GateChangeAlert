@@ -1,24 +1,107 @@
 ---
-name: "helloWorld"
+name: "GateChangeAlert"
 dataIns:
-  - name: "name"
+  - name: "newGate"
     type: "string"
-    source: "name"
+    source: "GateChangeAlert/newGate"
 workflowBody:
+  - parallel:
+      name: "Parallel"
+      parallelBody:
+        - section:
+            - function:
+                name: "getPassengers"
+                type: "Collection"
+                dataIns:
+                  - name: "newGate"
+                    type: "string"
+                    source: "GateChangeAlert/newGate"
+                dataOuts:
+                  - name: "passengers"
+                    type: "collection"
+                    source: "LambdaGetPassenger/passengers"
+                properties:
+                  - name: "resources"
+                    value: "arn:aws:lambda:us-east-1:069469608429:function:getPassengers"
+            - function:
+                name: "getNewGate"
+                type: "int"
+                dataIns:
+                  - name: "newGate"
+                    type: "string"
+                    source: "newGate"
+                properties:
+                  - name: "resources"
+                    value: "arn:aws:lambda:us-east-1:069469608429:function:getNewGate"
   - function:
-      name: "hello"
-      type: "helloType"
-      dataIns:
-        - name: "name"
-          type: "string"
-          source: "helloWorld/name"
+      name: "calcCheckDelay"
+      type: "int"
       dataOuts:
-        - name: "message"
-          type: "string"
+        - name: "securityCheckDelay"
+          type: "number"
+          source: "LambdaCalcCheckDelay/securityCheckDelay"
       properties:
-        - name: "resource"
-          value: "java:arn:aws:lambda:us-east-1:069469608429:function:getPassengers"
-dataOuts:
-  - name: "message"
-    type: "string"
-    source: "hello/message"
+        - name: "resources"
+          value: "arn:aws:lambda:us-east-1:069469608429:function:calcCheckDelay"
+  - function:
+      name: "calcTimeCheckToGate"
+      type: "int"
+      dataIns:
+        - name: "newGate"
+          type: "string"
+          source: "GateChangeAlert/newGate"
+        - name: "securityCheckDelay"
+          type: "number"
+          source: "GateChangeAlert/securityCheckDelay"
+      dataOuts:
+        - name: "delay"
+          type: "number"
+          source: "LambdaCalcTimeCheckToGate/delay"
+      properties:
+        - name: "resources"
+          value: "arn:aws:lambda:us-east-1:069469608429:function:calcTimeCheckToGate"
+  - parallel:
+      name: "Parallel0"
+      parallelBody:
+        - section:
+            - function:
+                name: "getGPS"
+                type: "int"
+                dataIns:
+                  - name: "passengers"
+                    type: "collection"
+                    source: "GateChangeAlert/passengers"
+                dataOuts:
+                  - name: "gpsLocation"
+                    type: "collection"
+                    source: "LambdaGetGPS/gpsLocation"
+                properties:
+                  - name: "resources"
+                    value: "arn:aws:lambda:us-east-1:069469608429:function:getGPS"
+            - function:
+                name: "calcTimeToGate"
+                type: "int"
+                dataIns:
+                  - name: "gpsLocation"
+                    type: "collection"
+                    source: "GateChangeAlert/gpsLocations"
+                  - name: "delay"
+                    type: "number"
+                    source: "GateChangeAlert/delay"
+                dataOuts:
+                  - name: "timeToGate"
+                    type: "collection"
+                    source: "LambdaCalcTimeToGate/timeToGate"
+                properties:
+                  - name: "resources"
+                    value: "arn:aws:lambda:us-east-1:069469608429:function:calcTimeToGate"
+            - function:
+                name: "informPassenger"
+                type: "int"
+                dataIns:
+                  - name: "timeToGate"
+                    type: "collection"
+                    source: "GateChangeAlert/timeToGate"
+                properties:
+                  - name: "resources"
+                    value: "arn:aws:lambda:us-east-1:069469608429:function:informPassenger"
