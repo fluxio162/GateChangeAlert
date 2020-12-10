@@ -34,7 +34,7 @@ public class maindeletthis {
         String RDS_INSTANCE_HOSTNAME = "db-airport.cyw2qnj2xex2.us-east-1.rds.amazonaws.com";
         String RDS_INSTANCE_PORT = "3306";
 
-        String JDBC_URL = "jdbc:oracle:thin:@" + RDS_INSTANCE_HOSTNAME + ":" + RDS_INSTANCE_PORT + ":orcl";
+        String JDBC_URL = "jdbc:oracle:thin:@" + RDS_INSTANCE_HOSTNAME + ":" + RDS_INSTANCE_PORT + ":db-airport";
 
         try {
 
@@ -43,7 +43,7 @@ public class maindeletthis {
 
             //verify the connection is successful
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("select gps from PASSENGER where passenger_id = 1");
+            ResultSet rs = stmt.executeQuery("SELECT gps from PASSENGER WHERE passenger_id = 1");
             while (rs.next()) {
                 String gps = rs.getString("gps");
                 System.out.println(gps);
@@ -53,7 +53,6 @@ public class maindeletthis {
             stmt.close();
             connection.close();
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
