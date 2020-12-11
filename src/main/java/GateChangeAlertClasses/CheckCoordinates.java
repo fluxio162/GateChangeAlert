@@ -1,5 +1,6 @@
 package GateChangeAlertClasses;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -17,7 +18,10 @@ public class CheckCoordinates
     public static double PI = 3.14159265;
     public static double TWOPI = 2*PI;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+
+        System.out.println("return value: " + GetGPS.getGPS(1));
+
         ArrayList<Double> lat_array = new ArrayList<Double>();
         ArrayList<Double> long_array = new ArrayList<Double>();
 
