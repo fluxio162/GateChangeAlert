@@ -160,7 +160,6 @@ public class GetGPS {
             if(coordinate_is_inside_polygon(
                     coordinates[0], coordinates[1],
                     lat_array, long_array) == true){
-                System.out.println("coordinate is within the airport");
                 if (isInSecurityCheck(coordinates)){
                     // passenger is at the airport and in the security check
                     return 2;
