@@ -20,8 +20,9 @@ dependencies {
     compile 'com.amazonaws:aws-java-sdk:1.11.520'
     implementation 'com.google.code.gson:gson:2.8.5'
     testImplementation 'junit:junit:4.13.1'
-    // https://mvnrepository.com/artifact/com.sun.mail/javax.mail
     compile group: 'com.sun.mail', name: 'javax.mail', version: '1.6.2'
+    compile group: 'org.json', name: 'json', version: '20090211'
+
 }
 
 group = 'at.ac.uibk.dps'

@@ -1,25 +1,29 @@
 package GateChangeAlertLambdas;
 
-import com.amazonaws.services.lambda.runtime.Context;
-import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.amazonaws.services.rekognition.AmazonRekognition;
-import com.amazonaws.services.rekognition.AmazonRekognitionClientBuilder;
-import com.amazonaws.services.rekognition.model.*;
+        import com.amazonaws.services.lambda.runtime.Context;
+        import com.amazonaws.services.lambda.runtime.RequestHandler;
+        import com.amazonaws.services.rekognition.AmazonRekognition;
+        import com.amazonaws.services.rekognition.AmazonRekognitionClientBuilder;
+        import com.amazonaws.services.rekognition.model.*;
 
-import java.util.List;
-import java.util.Map;
+        import java.util.HashMap;
+        import java.util.List;
+        import java.util.Map;
 
-public class LambdaCalcCheckDelay implements RequestHandler<Map<String, Object>, Map<String, Object>>{
-        @Override public Map<String, Object> handleRequest(Map<String, Object> input, Context context){
-            System.out.println("Hello World from CalcCheckDelay ");
-        return null;
+public class LambdaCalcCheckDelay implements RequestHandler<Map<String, Object>, Map<String, Object>> {
+    @Override
+    public Map<String, Object> handleRequest(Map<String, Object> input, Context context) {
+        Map<String, Object> output = new HashMap<>();
+        output.put("output", processImage());
+        return output;
     }
-    private static void processImage(){
+
+    private static int processImage() {
         AmazonRekognition rekognitionClient = AmazonRekognitionClientBuilder.defaultClient();
 
         String image = "security queue.jpg";
 
-        String s3Bucket ="wittibucket";
+        String s3Bucket = "wittibucket";
 
         S3Object s3Obj = new S3Object();
         s3Obj.withBucket(s3Bucket);
@@ -40,22 +44,20 @@ public class LambdaCalcCheckDelay implements RequestHandler<Map<String, Object>,
             DetectLabelsResult result = rekognitionClient.detectLabels(request);
             List<Label> labels = result.getLabels();
 
-            for(Label label: labels)
-            {
+            for (Label label : labels) {
                 System.out.println("Label ::" + label.getName());
                 System.out.println("Confidence ::" + label.getConfidence());
 
-                if(label.getName().equals("Person")){
+                if (label.getName().equals("Person")) {
                     personCount = label.getInstances().size();
 
                 }
             }
-        }
-        catch(AmazonRekognitionException e)
-        {
+        } catch (AmazonRekognitionException e) {
             e.printStackTrace();
         }
 
-        System.out.println("Total persons: "+personCount);
+        System.out.println("Total persons: " + personCount);
+        return personCount;
     }
 }
