@@ -22,31 +22,17 @@ public class GetGPSMain {
 
     public static void main(String[] args) {
 
-        // Authenticate the RDS Client
-        AmazonRDS awsRDS = AmazonRDSClientBuilder.standard().withRegion(Regions.US_EAST_1).build();
-
-        // fetch the mySQL database created in the AWS Console
-        DescribeDBInstancesResult dbInstResult = awsRDS.describeDBInstances();
-
-        List<DBInstance> dbInstances = dbInstResult.getDBInstances();
-
-        for (DBInstance dbInst : dbInstances) {
-            System.out.println("DB Instance:: " + dbInst.getDBName());
-        }
 
         // Endpoint of database
-        String RDS_INSTANCE_HOSTNAME = "db-airport.cyw2qnj2xex2.us-east-1.rds.amazonaws.com";
+        String RDS_INSTANCE_HOSTNAME = "db-airport.c5ruxeophusi.us-east-1.rds.amazonaws.com";
         // Port of Database
         String RDS_INSTANCE_PORT = "3306";
 
         // name of database 'db-airport'
-        String JDBC_URL = "jdbc:oracle:thin:@" + RDS_INSTANCE_HOSTNAME + ":" + RDS_INSTANCE_PORT + ":db-airport";
+        String JDBC_URL = "jdbc:mysql://" + RDS_INSTANCE_HOSTNAME + ":" + RDS_INSTANCE_PORT + "/db-airport?useSSL=false";
 
         try {
-            // !!! ERROR: No suitable driver found for jdbc:oracle:thin:@db-airport.cyw2qnj2xex2.us-east-1.rds.amazonaws.com:3306:db-airport
-            Connection connection = DriverManager.getConnection(
-                    // access data of the database
-                    JDBC_URL, "root", "password");
+            Connection connection = DriverManager.getConnection(JDBC_URL, "root", "password");
 
             // verify the connection is successful
             Statement stmt = connection.createStatement();
