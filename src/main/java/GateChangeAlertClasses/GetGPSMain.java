@@ -14,14 +14,9 @@ import java.util.ArrayList;
  */
 public class GetGPSMain {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
-        // list of values returned by database
-        ArrayList<String> valueList = new ArrayList<String>();
-
-        valueList = DatabaseAccessClass.accessDatabase("SELECT gps from PASSENGER WHERE passenger_id = 1", "gps");
-
-        System.out.println(valueList);
+        System.out.println(GetGPS.getGPS(4));
     }
 
 }

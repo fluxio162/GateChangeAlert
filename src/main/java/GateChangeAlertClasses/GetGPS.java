@@ -24,8 +24,7 @@ public class GetGPS {
      */
     public static int getGPS(int passenger_id) throws ClassNotFoundException, SQLException {
 
-
-        String gpsLocationFromDatabase = getGPSFromDatabase(1);
+        String gpsLocationFromDatabase = getGPSFromDatabase(passenger_id);
 
         int gpsLocation = checkCoordinates(gpsLocationFromDatabase);
 
@@ -33,81 +32,12 @@ public class GetGPS {
     }
 
     private static String getGPSFromDatabase(int passenger_id) {
-        // TODO: passenger_id add to the command string using a stringbuilder object
+        // list of values returned by database
+        ArrayList<String> valueList = new ArrayList<String>();
 
-        /*
+        valueList = DatabaseAccessClass.accessDatabase("SELECT gps from PASSENGER WHERE passenger_id = " + passenger_id, "gps");
 
-        /*
-        StringBuilder sqlCommand = new StringBuilder("select gps from PASSENGER where passenger_id = ");
-        sqlCommand.append(passenger_id);
-
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection con = DriverManager.getConnection("jdbc:mysql://db-airport.cyw2qnj2xex2.us-east-1.rds.amazonaws.com"
-                      + "user=root&password=password");
-
-        PreparedStatement gpsLocatoin = con.prepareStatement(String.valueOf(sqlCommand));
-        ResultSet result = gpsLocatoin.executeQuery();
-
-        return result.getString("gps");
-
-
-        // Authenticate the RDS Client
-        AmazonRDS awsRDS = AmazonRDSClientBuilder.standard().withRegion(Regions.US_EAST_1).build();
-
-        // fetch the mySQL database created in the AWS Console
-        DescribeDBInstancesResult dbInstResult = awsRDS.describeDBInstances();
-
-        List<DBInstance> dbInstances = dbInstResult.getDBInstances();
-
-        for (DBInstance dbInst : dbInstances) {
-            System.out.println("DB Instance:: " + dbInst.getDBName());
-        }
-
-        // Endpoint of database
-        String RDS_INSTANCE_HOSTNAME = "db-airport.cyw2qnj2xex2.us-east-1.rds.amazonaws.com";
-        // Port of Database
-        String RDS_INSTANCE_PORT = "3306";
-
-        // name of database 'db-airport'
-        String JDBC_URL = "jdbc:oracle:thin:@" + RDS_INSTANCE_HOSTNAME + ":" + RDS_INSTANCE_PORT + ":db-airport";
-
-        try {
-            // !!! ERROR: No suitable driver found for jdbc:oracle:thin:@db-airport.cyw2qnj2xex2.us-east-1.rds.amazonaws.com:3306:db-airport
-            Connection connection = DriverManager.getConnection(
-                    // access data of the database
-                    JDBC_URL, "root", "password");
-
-            // verify the connection is successful
-            Statement stmt = connection.createStatement();
-
-            // get the GPS Position of passenger with id 'passenger_id' from table 'passenger' in the database
-            ResultSet rs = stmt.executeQuery("SELECT gps from PASSENGER WHERE passenger_id = 1");
-            while (rs.next()) {
-                // the gps position is stored as a string
-                String gps = rs.getString("gps");
-                System.out.println(gps);
-            }
-
-            // close the connection
-            stmt.close();
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-         */
-
-        // a coordinate outside of the airport
-        // class returns 0 when this coordinate is used
-        // return "47.258185426265165, 11.35069427743045";
-
-        // a coordinate within the airport of innsbruck (but not within the security check)
-        // class returns 1 when this coordinate is used
-        // return "47.257789704052335, 11.351155464984213";
-
-        // a coordinate within the security check
-        // class returns 2 when this coordinate is used
-        return "47.25785654273658, 11.351599611921941";
+        return valueList.get(0);
     }
 
 
@@ -160,6 +90,7 @@ public class GetGPS {
             if(coordinate_is_inside_polygon(
                     coordinates[0], coordinates[1],
                     lat_array, long_array) == true){
+
                 if (isInSecurityCheck(coordinates)){
                     // passenger is at the airport and in the security check
                     return 2;
