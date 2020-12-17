@@ -24,20 +24,6 @@ public class GetGPS {
      */
     public static int getGPS(int passenger_id) throws ClassNotFoundException, SQLException {
 
-        /*
-        StringBuilder sqlCommand = new StringBuilder("select gps from PASSENGER where passenger_id = ");
-        sqlCommand.append(passenger_id);
-         
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection con = DriverManager.getConnection("jdbc:mysql://db-airport.cyw2qnj2xex2.us-east-1.rds.amazonaws.com"
-                      + "user=root&password=password");
-
-        PreparedStatement gpsLocatoin = con.prepareStatement(String.valueOf(sqlCommand));
-        ResultSet result = gpsLocatoin.executeQuery();
-
-        return result.getString("gps");
-
-        */
 
         String gpsLocationFromDatabase = getGPSFromDatabase(1);
 
@@ -50,6 +36,20 @@ public class GetGPS {
         // TODO: passenger_id add to the command string using a stringbuilder object
 
         /*
+
+        /*
+        StringBuilder sqlCommand = new StringBuilder("select gps from PASSENGER where passenger_id = ");
+        sqlCommand.append(passenger_id);
+
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection con = DriverManager.getConnection("jdbc:mysql://db-airport.cyw2qnj2xex2.us-east-1.rds.amazonaws.com"
+                      + "user=root&password=password");
+
+        PreparedStatement gpsLocatoin = con.prepareStatement(String.valueOf(sqlCommand));
+        ResultSet result = gpsLocatoin.executeQuery();
+
+        return result.getString("gps");
+
 
         // Authenticate the RDS Client
         AmazonRDS awsRDS = AmazonRDSClientBuilder.standard().withRegion(Regions.US_EAST_1).build();
@@ -107,7 +107,7 @@ public class GetGPS {
 
         // a coordinate within the security check
         // class returns 2 when this coordinate is used
-         return "47.257872413923856, 11.351604708024626";
+        return "47.25785654273658, 11.351599611921941";
     }
 
 
@@ -267,18 +267,6 @@ public class GetGPS {
             dtheta += TWOPI;
 
         return(dtheta);
-    }
-
-    public static boolean is_valid_gps_coordinate(double latitude,
-                                                  double longitude)
-    {
-        // This is a bonus function, it's unused, to reject invalid lat/longs.
-        if (latitude > -90 && latitude < 90 &&
-                longitude > -180 && longitude < 180)
-        {
-            return true;
-        }
-        return false;
     }
 
 }
