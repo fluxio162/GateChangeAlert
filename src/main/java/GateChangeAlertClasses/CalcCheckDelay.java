@@ -27,7 +27,7 @@ public class CalcCheckDelay {
 
         String image = "security.jpg";
 
-        String s3Bucket ="wittibucket";
+        String s3Bucket ="airportbucketibk";
 
         S3Object s3Obj = new S3Object();
         s3Obj.withBucket(s3Bucket);
