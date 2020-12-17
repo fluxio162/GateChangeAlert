@@ -8,6 +8,10 @@ import java.util.List;
 
 public class CalcCheckDelay {
 
+    public static void main(String[] args) {
+        processImage();
+    }
+
     static public Double calcCheckDelay()
     {
         Double securityCheckDelay = null;
@@ -16,10 +20,12 @@ public class CalcCheckDelay {
         return securityCheckDelay;
     }
 
-    private static void processImage(){
+    private static int processImage(){
         AmazonRekognition rekognitionClient = AmazonRekognitionClientBuilder.defaultClient();
 
-        String image = "security queue.jpg";
+        double avg_time = 2.5;
+
+        String image = "security.jpg";
 
         String s3Bucket ="wittibucket";
 
@@ -59,6 +65,8 @@ public class CalcCheckDelay {
         }
 
         System.out.println("Total persons: "+personCount);
+        System.out.println("Expected time: "+personCount*avg_time+" minutes");
+        return personCount;
     }
 }
 
