@@ -1,6 +1,7 @@
 package GateChangeAlertClasses;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 import javax.mail.*;
@@ -9,16 +10,17 @@ import javax.mail.internet.MimeMessage;
 
 public class InformPassenger {
 
-    static void informPassenger(double timeToGate, String passenger)
+    static void informPassenger(String passenger, int location, double delay, double timeToGate)
     {
         final String fromEmail = "innsbruckairportservice@gmail.com";
         final String password = "Innsbru1!1";
-        final String toEmail = "david.arnold@student.uibk.ac.at";
+        List<String> emailList = DatabaseAccessClass.accessDatabase("SELECT mail from PASSENGER WHERE passenger_id = " + passenger, "mail");
+        final String toEmail = emailList.get(0);
+
 
         /*
         Setup Email properties
          */
-        System.out.println("SSLEmail Start");
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP Host
         props.put("mail.smtp.socketFactory.port", "465"); //SSL Port
@@ -40,8 +42,26 @@ public class InformPassenger {
         Start session
          */
         Session session = Session.getDefaultInstance(props, auth);
-        System.out.println("Session created");
-        sendEmail(session, toEmail,"Alert", "You are receiving a test email from Innsbruck Airport!");
+        double totalTime = delay+timeToGate+10.0;
+
+
+        switch(location){
+            case 0:
+                sendEmail(session, toEmail,"Airport Innsbruck Alert", "Unfortunately, you are still not at the airport. As soon as you enter the airport, the waiting time at the security check-in is " + (int)totalTime + " minutes.");
+                break;
+            //not at airport
+
+            case 1:
+                sendEmail(session, toEmail,"Airport Innsbruck Alert", "Welcome to Innsbruck Airport! Please go to the security check in. The current waiting time is " + (int)totalTime + " minutes.");
+                break;
+            //at airport
+
+            case 2:
+                sendEmail(session, toEmail,"Airport Innsbruck Notification", "We are pleased to welcome you at Innsbruck Airport! We wish you a pleasant flight.");
+                break;
+            //in security area
+        }
+
     }
 
     public static void sendEmail(Session session, String toEmail, String subject, String body){
@@ -64,10 +84,9 @@ public class InformPassenger {
             msg.setSentDate(new Date());
 
             msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail, false));
-            System.out.println("Message is ready");
             Transport.send(msg);
 
-            System.out.println("EMail Sent Successfully!!");
+            System.out.println("EMail Sent Successfully! " + toEmail);
         }
         catch (Exception e) {
             e.printStackTrace();

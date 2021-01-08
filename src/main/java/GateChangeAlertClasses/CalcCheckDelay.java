@@ -20,7 +20,7 @@ public class CalcCheckDelay {
         return securityCheckDelay;
     }
 
-    private static int processImage(){
+    public static int processImage(){
         AmazonRekognition rekognitionClient = AmazonRekognitionClientBuilder.defaultClient();
 
         double avg_time = 2.5;

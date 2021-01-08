@@ -2,9 +2,9 @@ package GateChangeAlertClasses;
 
 public class CalcTimeCheckToGate {
 
-    static public double calcTimeCheckToGate(String newGate, Double securityCheckDelay)
+    static public double calcTimeCheckToGate()
     {
-        double doubleDelay = 0;
+        double doubleDelay = 5.0;
         return doubleDelay;
     }
 
