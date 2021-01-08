@@ -47,12 +47,12 @@ public class InformPassenger {
 
         switch(location){
             case 0:
-                sendEmail(session, toEmail,"Airport Innsbruck Alert", "Unfortunately, you are still not at the airport. As soon as you enter the airport, the waiting time at the security check-in is " + (int)totalTime + " minutes.");
+                sendEmail(session, toEmail,"Airport Innsbruck Alert", "Unfortunately, you are still not at the airport. As soon as you enter the airport, the waiting time at the security check-in is " + (int)delay + " minutes. The estimated time to your gate is " + (int)totalTime + " minutes.");
                 break;
             //not at airport
 
             case 1:
-                sendEmail(session, toEmail,"Airport Innsbruck Alert", "Welcome to Innsbruck Airport! Please go to the security check in. The current waiting time is " + (int)totalTime + " minutes.");
+                sendEmail(session, toEmail,"Airport Innsbruck Alert", "Welcome to Innsbruck Airport! Please go to the security check in. The current waiting time is " + (int)delay + " minutes. The estimated time to your gate is " + (int)totalTime + " minutes.");
                 break;
             //at airport
 
