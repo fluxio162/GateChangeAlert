@@ -1,17 +1,22 @@
 package GateChangeAlertLambdas;
 
-import GateChangeAlertClasses.GetPassengers;
+import GateChangeAlertClasses.DatabaseAccessClass;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
-public class LambdaGetPassengers implements RequestHandler<Map<String, Object>, Map<String, Object>>{
-        @Override public Map<String, Object> handleRequest(Map<String, Object> input, Context context){
-            System.out.println("Hello World from GetPassengers");
+public class LambdaGetPassengers implements RequestHandler<String, List<String>> {
+        @Override public List<String> handleRequest(String input, Context context){
+            String[] splitInput = input.split(";;");
 
-            System.out.println(GetPassengers.getPassenger(1));
+            int flight_id = Integer.parseInt(splitInput[0]);
+            int newGate = Integer.parseInt(splitInput[1]);
 
-        return null;
+            List<String> passenger = new ArrayList<>();
+            passenger = DatabaseAccessClass.accessDatabase("SELECT passenger_id from PASSENGER WHERE flight_id = " + flight_id, "passenger_id");
+
+            return passenger;
     }
 }
