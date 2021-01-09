@@ -23,7 +23,7 @@ public class CalcCheckDelay {
     public static int processImage(){
         AmazonRekognition rekognitionClient = AmazonRekognitionClientBuilder.defaultClient();
 
-        double avg_time = 2.5;
+        int avg_time = 2;
 
         String image = "security.jpg";
 
@@ -64,9 +64,7 @@ public class CalcCheckDelay {
             e.printStackTrace();
         }
 
-        System.out.println("Total persons: "+personCount);
-        System.out.println("Expected time: "+personCount*avg_time+" minutes");
-        return personCount;
+        return personCount*avg_time;
     }
 }
 

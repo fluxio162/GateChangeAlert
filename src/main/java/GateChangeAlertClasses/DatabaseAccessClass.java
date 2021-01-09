@@ -3,6 +3,7 @@ package GateChangeAlertClasses;
 import java.sql.*;
 import java.util.ArrayList;
 
+
 public class DatabaseAccessClass {
 
     public static ArrayList<String> accessDatabase(String sqlCommand, String columnLabel){
@@ -20,6 +21,7 @@ public class DatabaseAccessClass {
 
         // name of database 'db-airport'
         String JDBC_URL = "jdbc:mysql://" + RDS_INSTANCE_HOSTNAME + ":" + RDS_INSTANCE_PORT + "/Airport?useSSL=false";
+
 
         try {
             try (Connection connection = DriverManager.getConnection(JDBC_URL, "root", "password")) {

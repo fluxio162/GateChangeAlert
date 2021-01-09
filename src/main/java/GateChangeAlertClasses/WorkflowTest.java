@@ -42,7 +42,7 @@ public class WorkflowTest {
         System.out.println(passengerPosition);
 
         for(Map.Entry<String, Integer> entry : passengerPosition.entrySet()){
-            InformPassenger.informPassenger(entry.getKey(), entry.getValue(), delay, timeCheckToGate);
+            InformPassenger.informPassenger(entry.getKey(), entry.getValue(), delay, "Gate");
         }
     }
 }

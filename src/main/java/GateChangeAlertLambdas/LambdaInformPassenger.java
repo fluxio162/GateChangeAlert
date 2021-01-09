@@ -1,5 +1,6 @@
 package GateChangeAlertLambdas;
 
+import GateChangeAlertClasses.InformPassenger;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
@@ -11,71 +12,29 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-public class LambdaInformPassenger implements RequestHandler<Map<String, Object>, Map<String, Object>>{
-    public static void sendEmail(Session session, String toEmail, String subject, String body){
-        try
-        {
-            MimeMessage msg = new MimeMessage(session);
-            // Set email header
-            msg.addHeader("Content-type", "text/HTML; charset=UTF-8");
-            msg.addHeader("format", "flowed");
-            msg.addHeader("Content-Transfer-Encoding", "8bit");
+public class LambdaInformPassenger implements RequestHandler<Map<String, Integer>, String>{
 
-            msg.setFrom(new InternetAddress("noreply@ibk.at", "Innsbruck Airport"));
+        @Override public String handleRequest(Map<String, Integer> input, Context context){
 
-            msg.setReplyTo(InternetAddress.parse("noreply@ibk.at", false));
+            int delay = 0;
+            int timeToGate = 10;
+            String newGate = "";
 
-            msg.setSubject(subject, "UTF-8");
-
-            msg.setText(body, "UTF-8");
-
-            msg.setSentDate(new Date());
-
-            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail, false));
-            System.out.println("Message is ready");
-            Transport.send(msg);
-
-            System.out.println("EMail Sent Successfully!!");
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-        @Override public Map<String, Object> handleRequest(Map<String, Object> input, Context context){
-            Map<String, Object> output = new HashMap<>();
-            final String fromEmail = "innsbruckairportservice@gmail.com";
-            final String password = "Innsbru1!1";
-            final String toEmail = "wittauch@gmail.com";
-
-        /*
-        Setup Email properties
-         */
-            System.out.println("SSLEmail Start");
-            Properties props = new Properties();
-            props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP Host
-            props.put("mail.smtp.socketFactory.port", "465"); //SSL Port
-            props.put("mail.smtp.socketFactory.class",
-                    "javax.net.ssl.SSLSocketFactory"); //SSL Factory Class
-            props.put("mail.smtp.auth", "true"); //Enabling SMTP Authentication
-            props.put("mail.smtp.port", "465"); //SMTP Port
-
-        /*
-        Authentication of sender email
-         */
-            Authenticator auth = new Authenticator() {
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(fromEmail, password);
+            for(String s : input.keySet()){
+                if(s.startsWith("Gate")){
+                    delay = input.get(s);
+                    newGate = s;
                 }
-            };
 
-        /*
-        Start session
-         */
-            Session session = Session.getDefaultInstance(props, auth);
-            System.out.println("Session created");
-            sendEmail(session, toEmail,"Alert", "You are receiving a test email from Innsbruck Airport!");
-            output.put("output", "email sent");
-        return output;
+            }
+
+            for(Map.Entry<String, Integer> entry : input.entrySet()){
+                if(!entry.getKey().startsWith("Gate")){
+                    InformPassenger.informPassenger(entry.getKey(), entry.getValue(), delay, newGate);
+                }
+
+            }
+        return "All notifications sent successfully!";
     }
 
 }
