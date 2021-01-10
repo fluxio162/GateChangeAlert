@@ -25,8 +25,8 @@ public class WorkflowTest {
         double delay = CalcCheckDelay.processImage();
         System.out.println("Delay:" + delay);
 
-        double timeCheckToGate = CalcTimeCheckToGate.calcTimeCheckToGate();
-        System.out.println("CheckToGate: " + timeCheckToGate);
+        //double timeCheckToGate = CalcTimeCheckToGate.calcTimeCheckToGate();
+        //System.out.println("CheckToGate: " + timeCheckToGate);
 
 
         Map<String, Integer> passengerPosition = new HashMap<>();
@@ -40,9 +40,9 @@ public class WorkflowTest {
             }
         }
         System.out.println(passengerPosition);
-
+/*
         for(Map.Entry<String, Integer> entry : passengerPosition.entrySet()){
-            InformPassenger.informPassenger(entry.getKey(), entry.getValue(), delay, "Gate");
-        }
+            InformPassenger.informPassenger(entry.getKey(), entry.getValue(), delay, 3);
+        }*/
     }
 }

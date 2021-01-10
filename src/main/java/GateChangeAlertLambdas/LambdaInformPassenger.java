@@ -12,29 +12,23 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-public class LambdaInformPassenger implements RequestHandler<Map<String, Integer>, String>{
+public class LambdaInformPassenger implements RequestHandler<Map<String, Integer>, Map<String, Object>> {
 
-        @Override public String handleRequest(Map<String, Integer> input, Context context){
+    @Override
+    public Map<String, Object> handleRequest(Map<String, Integer> input, Context context) {
 
-            int delay = 0;
-            int timeToGate = 10;
-            String newGate = "";
 
-            for(String s : input.keySet()){
-                if(s.startsWith("Gate")){
-                    delay = input.get(s);
-                    newGate = s;
-                }
+        int delay = input.get("delay");
+        int passengerId = input.get("passengerId");
+        int gps = input.get("passenger");
+        int newGate = input.get("newGate");
 
-            }
+        InformPassenger.informPassenger(passengerId, gps, delay, newGate);
 
-            for(Map.Entry<String, Integer> entry : input.entrySet()){
-                if(!entry.getKey().startsWith("Gate")){
-                    InformPassenger.informPassenger(entry.getKey(), entry.getValue(), delay, newGate);
-                }
+        Map<String, Object> output = new HashMap<>();
+        output.put("output", "Notification sent successfully!");
 
-            }
-        return "All notifications sent successfully!";
+        return output;
     }
 
 }

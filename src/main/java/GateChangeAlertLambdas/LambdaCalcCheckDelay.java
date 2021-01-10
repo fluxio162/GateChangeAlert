@@ -4,17 +4,15 @@ package GateChangeAlertLambdas;
         import com.amazonaws.services.lambda.runtime.Context;
         import com.amazonaws.services.lambda.runtime.RequestHandler;
 
+        import java.util.HashMap;
         import java.util.Map;
 
-public class LambdaCalcCheckDelay implements RequestHandler<Map<String, Integer>, Map<String, Integer>> {
+public class LambdaCalcCheckDelay implements RequestHandler<Map<String, Integer>, Map<String, Object>> {
     @Override
-    public Map<String, Integer> handleRequest(Map<String, Integer> input, Context context) {
-        Map<String, Integer> output = input;
-        for(String s : output.keySet()){
-            if(s.startsWith("Gate")){
-                output.put(s, CalcCheckDelay.processImage());
-            }
-        }
+    public Map<String, Object> handleRequest(Map<String, Integer> input, Context context) {
+        Map<String, Object> output = new HashMap<>();
+        output.put("delay", CalcCheckDelay.processImage());
+        output.put("newGate", input.get("newGate"));
         return output;
     }
 }

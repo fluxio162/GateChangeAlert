@@ -9,21 +9,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class LambdaGetPassengers implements RequestHandler<String, Map<String, Integer>> {
-        @Override public Map<String, Integer> handleRequest(String input, Context context){
-            String[] splitInput = input.split(";;");
+public class LambdaGetPassengers implements RequestHandler<Map<String, Integer>, Map<String, Object>> {
+        @Override public Map<String, Object> handleRequest(Map<String, Integer> input, Context context){
 
-            int flight_id = Integer.parseInt(splitInput[0]);
-            String newGate = "Gate " + splitInput[1];
+            Map<String, Object> output = new HashMap<>();
 
-            Map<String, Integer> output = new HashMap<>();
-            output.put(newGate, 0);
             List<String> passenger = new ArrayList<>();
-            passenger.addAll(GetPassengers.getPassenger(flight_id));
-            for(String p : passenger){
-                output.put(p, 0);
+            passenger.addAll(GetPassengers.getPassenger((Integer)input.get("flight_id")));
+
+            List<Integer> passengerList = new ArrayList<>();
+
+            for(String s : passenger){
+                passengerList.add(Integer.valueOf(s));
             }
 
+            output.put("passengerList", passengerList);
             return output;
     }
 }
