@@ -10,7 +10,7 @@ import javax.mail.internet.MimeMessage;
 
 public class InformPassenger {
 
-    public static void informPassenger(int passenger, int location, double delay, int newGate)
+    public static void informPassenger(int passenger, int location, int checkDelay, int delay, int newGate)
     {
         final String fromEmail = "innsbruckairportservice@gmail.com";
         final String password = "Innsbru1!1";
@@ -42,17 +42,16 @@ public class InformPassenger {
         Start session
          */
         Session session = Session.getDefaultInstance(props, auth);
-        double totalTime = delay+10.0;
 
 
         switch(location){
             case 0:
-                sendEmail(session, toEmail,"Airport Innsbruck Alert", "Unfortunately, you are still not at the airport. \nYour gate has changed, your new gate is Gate " + newGate + ". \nAs soon as you enter the airport, the waiting time at the security check-in is " + (int)delay + " minutes. \nThe estimated time to your gate is " + (int)totalTime + " minutes.");
+                sendEmail(session, toEmail,"Airport Innsbruck Alert", "Unfortunately, you are still not at the airport. \nYour gate has changed, your new gate is Gate " + newGate + ". \nAs soon as you enter the airport, the waiting time at the security check-in is " + checkDelay + " minutes. \nThe estimated time to your gate is " + delay + " minutes.");
                 break;
             //not at airport
 
             case 1:
-                sendEmail(session, toEmail,"Airport Innsbruck Alert", "Welcome to Innsbruck Airport! \nYour gate has changed, your new gate is Gate " + newGate + ". \nPlease go to the security check in. \nThe current waiting time is " + (int)delay + " minutes. \nThe estimated time to your gate is " + (int)totalTime + " minutes.");
+                sendEmail(session, toEmail,"Airport Innsbruck Alert", "Welcome to Innsbruck Airport! \nYour gate has changed, your new gate is Gate " + newGate + ". \nPlease go to the security check in. \nThe current waiting time is " + checkDelay + " minutes. \nThe estimated time to your gate is " + delay + " minutes.");
                 break;
             //at airport
 

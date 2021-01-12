@@ -7,6 +7,7 @@ import java.util.*;
 public class WorkflowTest {
 
     public static void main(String[] args) {
+        /*
         String input = "1;;3";
         String[] splitInput = input.split(";;");
 
@@ -16,7 +17,7 @@ public class WorkflowTest {
         /*
         List<String> passenger = new ArrayList<>();
         GetPassengers.getPassenger(flight_id);
-         */
+
 
         List<String> passenger = new ArrayList<>();
         passenger = DatabaseAccessClass.accessDatabase("SELECT passenger_id from PASSENGER WHERE flight_id = " + flight_id, "passenger_id");
@@ -29,10 +30,11 @@ public class WorkflowTest {
         //System.out.println("CheckToGate: " + timeCheckToGate);
 
 
+        /*
         Map<String, Integer> passengerPosition = new HashMap<>();
         for (String pas : passenger) {
             try {
-                passengerPosition.put(pas, GetGPS.getGPS(Integer.valueOf(pas)));
+                //passengerPosition.put(pas, GetGPS.getGPS(Integer.valueOf(pas)));
             } catch (SQLException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
@@ -40,9 +42,13 @@ public class WorkflowTest {
             }
         }
         System.out.println(passengerPosition);
-/*
+
         for(Map.Entry<String, Integer> entry : passengerPosition.entrySet()){
             InformPassenger.informPassenger(entry.getKey(), entry.getValue(), delay, 3);
         }*/
+
+        String gps = "47.259775999938924, 11.351353699422411";
+
+        System.out.println(GetGPS.calculateWalkingTime(gps));
     }
 }

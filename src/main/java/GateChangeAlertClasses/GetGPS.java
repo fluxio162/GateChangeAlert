@@ -22,13 +22,18 @@ public class GetGPS {
      * @param passenger_id id of the passenger
      * @return the gps location of the passenger according to the database
      */
-    public static int getGPS(int passenger_id) throws ClassNotFoundException, SQLException {
+    public static String getGPS(int passenger_id) throws ClassNotFoundException, SQLException {
 
         String gpsLocationFromDatabase = getGPSFromDatabase(passenger_id);
 
         int gpsLocation = checkCoordinates(gpsLocationFromDatabase);
 
-        return gpsLocation;
+        return getGPSFromDatabase(passenger_id);
+    }
+
+    public static int checkGPSCoordinates(String gpsLocation) throws ClassNotFoundException, SQLException {
+
+        return checkCoordinates(gpsLocation);
     }
 
     private static String getGPSFromDatabase(int passenger_id) {
@@ -198,6 +203,32 @@ public class GetGPS {
             dtheta += TWOPI;
 
         return(dtheta);
+    }
+
+    public static int calculateWalkingTime(String gpsLocationData){
+        double latSecurityCheck = 47.25775555469284;
+        double lonSecurityCheck = 11.351593290369276;
+        double latPassenger = Double.parseDouble(gpsLocationData.split(",")[0]);
+        double lonPassenger = Double.parseDouble(gpsLocationData.split(",")[1]);
+
+        double theta = lonSecurityCheck - lonPassenger;
+        double distance = Math.sin(Math.toRadians(latSecurityCheck)) * Math.sin(Math.toRadians(latPassenger)) + Math.cos(Math.toRadians(latSecurityCheck)) * Math.cos(Math.toRadians(latPassenger)) * Math.cos(Math.toRadians(theta));
+        distance = Math.toDegrees(Math.acos(distance));
+        distance *= 60 * 1.1515;
+
+        //convert to kilometers and add some distance because we calculate direct distance
+        distance *= 1.609344 * 1.5;
+
+        //return walking time with average speed of 5 km/h
+        return (int) Math.round(distance/0.0833);
+    }
+
+    private static double degToRad(double deg){
+        return (deg * Math.PI / 180.0);
+    }
+
+    private static double radToDeg(double rad){
+        return (rad * 180.0 / Math.PI);
     }
 
 }

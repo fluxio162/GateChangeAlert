@@ -22,8 +22,9 @@ public class LambdaInformPassenger implements RequestHandler<Map<String, Integer
         int passengerId = input.get("passengerId");
         int gps = input.get("passenger");
         int newGate = input.get("newGate");
+        int checkDelay = input.get("checkDelay");
 
-        InformPassenger.informPassenger(passengerId, gps, delay, newGate);
+        InformPassenger.informPassenger(passengerId, gps, checkDelay, delay, newGate);
 
         Map<String, Object> output = new HashMap<>();
         output.put("output", "Notification sent successfully!");

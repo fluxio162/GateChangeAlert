@@ -24,6 +24,7 @@ public class LambdaGetPassengers implements RequestHandler<Map<String, Integer>,
             }
 
             output.put("passengerList", passengerList);
+            output.put("passengerCount", passengerList.size());
             return output;
     }
 }
