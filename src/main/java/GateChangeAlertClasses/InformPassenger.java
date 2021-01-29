@@ -44,7 +44,7 @@ public class InformPassenger {
         Session session = Session.getDefaultInstance(props, auth);
 
 
-        switch(location){
+        switch(location){ 
             case 0:
                 sendEmail(session, toEmail,"Airport Innsbruck Alert", "Unfortunately, you are still not at the airport. \nYour gate has changed, your new gate is Gate " + newGate + ". \nAs soon as you enter the airport, the waiting time at the security check-in is " + checkDelay + " minutes. \nThe estimated time to your gate is " + delay + " minutes.");
                 break;
@@ -93,3 +93,6 @@ public class InformPassenger {
     }
 
 }
+
+
+// java -jar xAFCL.jar GateChangeAlertWorkflow.yaml input.json

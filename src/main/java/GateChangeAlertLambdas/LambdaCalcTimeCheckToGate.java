@@ -1,8 +1,6 @@
 package GateChangeAlertLambdas;
 
-import GateChangeAlertClasses.CalcCheckDelay;
 import GateChangeAlertClasses.CalcTimeCheckToGate;
-import GateChangeAlertClasses.GetPassengers;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 

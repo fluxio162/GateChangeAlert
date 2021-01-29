@@ -46,3 +46,24 @@ task buildZip(type: Zip) {
         from configurations.runtimeClasspath
     }
 }
+
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'GateChangeAlertClasses.WorkflowTest'
+    }
+    archiveClassifier = "all"
+    from {
+        // not needed anymore according to someone on stackoverflow
+        // configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    } {
+        // does not change anything
+        exclude "META-INF/*.SF"
+        exclude "META-INF/*.DSA"
+        exclude "META-INF/*.RSA"
+    }
+    with jar
+
+
+}
